@@ -22,7 +22,6 @@
 #define LED1_OFF_L		0x0C
 #define LED1_OFF_H		0x0D
 
-
 class pca6985{
 private:
     hwlib::i2c_bus & bus;
@@ -115,7 +114,6 @@ public:
 	void setServo_Angle(uint8_t pin, uint16_t angle) {
 		if (angle < 0) {
 			angle = 0;
-			hwlib::cout << angle;
 		}
 		if (angle > 180) {
 			angle = 180;
@@ -131,6 +129,25 @@ public:
 		write_8(Pin.Led_off_L, half_byte.L_byte); // HIGH value
 		write_8(Pin.Led_off_H, half_byte.H_byte); // HIGH value
 		
+	}
+	
+	void setServo_Angle_Buttons(uint16_t & servo_angle, hwlib::target::pin_in & sw1 ,hwlib::target::pin_in & sw2) {
+		hwlib::wait_ms(10);
+		sw1.refresh();
+		sw2.refresh();
+		hwlib::wait_ms(10);
+		
+		if(sw1.read() == 1){
+			if(servo_angle <= 180){
+				servo_angle += 10;
+			}
+		}
+		if(sw2.read() == 1){
+			if(servo_angle >= 10){
+				servo_angle -= 10;
+			}
+		}
+		hwlib::wait_ms(100);
 	}
 	
 	/// Set a Pulse on the servo with a range from 0-180

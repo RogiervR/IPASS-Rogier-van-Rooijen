@@ -10,11 +10,20 @@ int main() {
     auto i2c_bus = hwlib::i2c_bus_bit_banged_scl_sda (scl, sda);
     auto pca = pca6985(i2c_bus);
 	
-	auto laser = hwlib::target::pin_out (hwlib::target::pins::d2);
+	auto laser = hwlib::target::pin_out (hwlib::target::pins::d8);
+	
+	auto servo0_sw1 = hwlib::target::pin_in( hwlib::target::pins::d2);
+	auto servo0_sw2 = hwlib::target::pin_in( hwlib::target::pins::d3);
+	
+	auto servo1_sw1  = hwlib::target::pin_in( hwlib::target::pins::d4);
+	auto servo1_sw2  = hwlib::target::pin_in( hwlib::target::pins::d5);
 	////////////////////////////////////////////////////////////////
 
-//	::Laser_straal(laser);
+//	auto sw1 = & servo0_sw1;
+//	auto sw2 = & servo0_sw2;
 
+	uint16_t servo_angle1 = 80;
+	uint16_t servo_angle2 = 80;
 	// Auto Increment aan: //
 	hwlib::wait_ms(2);
 	pca.write_8(MODE1, 0x20);
@@ -36,13 +45,36 @@ int main() {
 	hwlib::cout << Pin.Led_off_H << hwlib::endl;
 
 for(;;){	
-//	pca.setServo_Angle(0, 180);
+//	auto last = hwlib::now_us();
+//	if(hwlib::now_us() > last+1000) {
+//		::Laser_Knipper(laser , 100);
+//		last = hwlib::now_us();
+//	}
+
+	::Laser_Straal(laser , true);
+	
+	pca.setServo_Angle_Buttons(servo_angle1, servo0_sw1, servo0_sw2);
+	pca.setServo_Angle(0, servo_angle1);
+	pca.setServo_Angle_Buttons(servo_angle2,servo1_sw1, servo1_sw2);
+	pca.setServo_Angle(1, servo_angle2);
+	hwlib::cout << servo_angle1 << hwlib::endl;
+	hwlib::cout << servo_angle2 << hwlib::endl;
+
+
+
+//	::Laser_Knipper(laser , 100);
+//	::Laser_LangKort(laser , 2000 , 600);
+	
+	
+//	pca.setServo_Angle(0, 0);
 //	hwlib::wait_ms(100);
-//	pca.setServo_Angle(1, 180);
+//	pca.setServo_Angle(1, 90);
 //	hwlib::wait_ms(100);
-	pca.setServo_Pulse(0, 0 , 180);
-	hwlib::wait_ms(100);
-	pca.setServo_Pulse(1, 30 , 150);
-	hwlib::wait_ms(100);
+//	pca.setServo_Pulse(0, 0 , 180);
+//	hwlib::wait_ms(100);
+//	pca.setServo_Pulse(1, 30 , 150);
+//	hwlib::wait_ms(100);
+
+
 }
 }
