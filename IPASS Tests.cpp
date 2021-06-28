@@ -1,3 +1,12 @@
+// ==========================================================================
+//
+// File      : IPASS Tests.hpp
+// Part of   : IPASS Rogier van Rooijen 
+// Copyright : rogier.vanrooijen@student.hu.nl 2020/2021
+//
+// (See accompanying file README.md for more licensing information)
+//
+// ==========================================================================
 #include "hwlib.hpp"
 #include <iostream>
 #include <bitset>

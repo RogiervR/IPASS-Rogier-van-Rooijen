@@ -1,3 +1,13 @@
+// ==========================================================================
+//
+// File      : main.cpp
+// Part of   : IPASS Rogier van Rooijen 
+// Copyright : rogier.vanrooijen@student.hu.nl 2020/2021
+//
+// (See accompanying file README.md for more licensing information)
+//
+// ==========================================================================
+
 #include "hwlib.hpp"
 #include "PCA9685.hpp"
 #include "laser.hpp"
@@ -15,8 +25,8 @@ int main() {
 	
 	////////////////////////////////////////////////////////////////
 	
-	auto beeper_pin = hwlib::target::pin_out (hwlib::target::pins::d7);
-	auto laser_pin = hwlib::target::pin_out (hwlib::target::pins::d8);
+	auto beeper_pin = hwlib::target::pin_out (hwlib::target::pins::d8);
+	auto laser_pin = hwlib::target::pin_out (hwlib::target::pins::d7);
 	auto laser = Laser_module(laser_pin);
 	
 	////////////////////////////////////////////////////////////////
@@ -66,37 +76,12 @@ int main() {
 	hwlib::cout << Pin.Led_off_L << hwlib::endl;
 	hwlib::cout << Pin.Led_off_H << hwlib::endl;
 
-
-
-	
-	
 for(;;){
-//	sr04.Distancesensor();
-//	auto last = hwlib::now_us();
-//	if(hwlib::now_us() > last+1000) {
-//		
-//		laser.Laser_Knipper(100); // Functie 1 draait op zichzelf
-//		
-//		last = hwlib::now_us();
-//	}
-//	
-//	sr04.Distancesensor(); // Functie 2 draait op zichzelf
-//	
-//	// Functie 1 en 2 zouden "tegelijk" moeten draaien
-
-
-
+//////////////////////////////////////////////////////////////////////
+					// DEMO // 
 //	laser.Laser_Beam(true);
-	laser.Laser_Flashing(100);
-//	laser.Laser_LongShort(2000 , 600);
-
-//	pca.setServo_Pulse(0, 0 , 180);
-//
-//
-//	pca.setServo_Pulse(0, 180 , 0);
-//	sr04.Distancesensor_Alarm(laser_pin);
-//	sr04.Beeper_Flashing(100);
-	
+//	laser.Laser_Flashing(100);
+	::Oled_Interaction(Trig_pin , Echo_pin , oled , font, beeper_pin , laser_pin);
 	
 	pca.setServo_Angle_Buttons(servo_angle1, servo0_sw1, servo0_sw2);
 	pca.setServo_Angle(0, servo_angle1);
@@ -104,11 +89,23 @@ for(;;){
 	pca.setServo_Angle(1, servo_angle2);
 	hwlib::cout << servo_angle1 << hwlib::endl;
 	hwlib::cout << servo_angle2 << hwlib::endl;
-//	hwlib::wait_ms(500);
 	
+//////////////////////////////////////////////////////////////////////
+				// Overige Functies // 
+
+//	laser.Laser_Beam(true);
+//	laser.Laser_Flashing(100);
+//	laser.Laser_LongShort(2000 , 600);
+
+//	pca.setServo_Pulse(0, 30 , 150);
+//	pca.setServo_Pulse(0, 150 , 30);
+//	pca.setServo_Pulse(1, 30 , 150);
+//	pca.setServo_Pulse(1, 150 , 30);
+
+//	sr04.Distancesensor_Alarm(laser_pin);
+//	sr04.Beeper_Flashing(100);
 //	sr04.Distancesensor_Average();
 
-	
 	
 //	pca.setServo_Angle(0, 80);
 //	hwlib::wait_ms(100);
@@ -120,7 +117,6 @@ for(;;){
 //	pca.setServo_Pulse(1, 30 , 150);
 //	hwlib::wait_ms(100);
 
-
-//	::Oled_Interaction(Trig_pin , Echo_pin , oled , font, beeper_pin , laser_pin);
+//////////////////////////////////////////////////////////////////////
 	}
 }

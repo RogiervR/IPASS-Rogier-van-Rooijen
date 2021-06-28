@@ -1,3 +1,13 @@
+// ==========================================================================
+//
+// File      : Objectscanner.hpp
+// Part of   : IPASS Rogier van Rooijen 
+// Copyright : rogier.vanrooijen@student.hu.nl 2020/2021
+//
+// (See accompanying file README.md for more licensing information)
+//
+// ==========================================================================
+
 #ifndef OBJECTSCANNER_HPP
 #define OBJECTSCANNER_HPP
 
@@ -112,21 +122,38 @@ public:
 /// \details
 /// This function makes a notification apear on the oled screen when a object is in range of the distancesensor. 
 /// The function calls the SR04_Distancesensor() to calculate the average distance to the object.
-/// if the object is closer than 15 cm the oled screen will say "OBJECT DETECTED".
-/// Else if the object is further away then 15 cm the oled screen will say "NO OBJECT DETECTED".
-/// On top of the oled printing out if a object is detected it also calls the Beeper_Flashing() and Laser_Flashing() function with a delay of 100 milliseconds.
+/// if the object is closer than 30 cm the oled screen will say "OBJECT DETECTED".
+/// Else if the object is further away then 30 cm the oled screen will say "NO OBJECT DETECTED".
+/// On top of the oled printing out if a object is detected it also calls the Beeper_Flashing() and Laser_Flashing() function.
+/// When the object gets closer the Beeper and Laser start Flashing faster with less delay, going from 100 to 50 to 20 milliseconds.
 void Oled_Interaction(hwlib::target::pin_out & Trig_pin, hwlib::target::pin_in_out & Echo_pin , hwlib::glcd_oled & oled , hwlib::font_default_16x16 & font , hwlib::target::pin_out & beeper_pin , hwlib::target::pin_out & laser_pin){
 	auto laser = Laser_module(laser_pin);
 	auto Distancesensor = SR04_Distancesensor(Trig_pin , Echo_pin , beeper_pin);
 	float distance = Distancesensor.Distancesensor_Average();
 	auto display = hwlib::terminal_from( oled, font );
-	if(distance < 15){
-		  display 
+	if(distance < 7){
+			display 
 			 << "\f" << " OBJECT "
 			 << "\n" << "DETECTED!"
 			 << hwlib::flush;   
 		Distancesensor.Beeper_Flashing(100);
 		laser.Laser_Flashing(100);
+	}
+	else if(distance < 15){ 
+			display 
+			 << "\f" << " OBJECT "
+			 << "\n" << "DETECTED!"
+			 << hwlib::flush;   
+		Distancesensor.Beeper_Flashing(50);
+		laser.Laser_Flashing(50);
+	}
+	else if(distance < 30){  
+			display 
+			 << "\f" << " OBJECT "
+			 << "\n" << "DETECTED!"
+			 << hwlib::flush;   
+		Distancesensor.Beeper_Flashing(20);
+		laser.Laser_Flashing(20);
 	}
 	else{
 		  display 
@@ -136,9 +163,5 @@ void Oled_Interaction(hwlib::target::pin_out & Trig_pin, hwlib::target::pin_in_o
 			 << hwlib::flush;  
 	}
 }
-
-
-
-
 
 #endif // OBJECTSCANNER_HPP

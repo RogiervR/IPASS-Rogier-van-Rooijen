@@ -1,3 +1,13 @@
+// ==========================================================================
+//
+// File      : PCA9685.hpp
+// Part of   : IPASS Rogier van Rooijen 
+// Copyright : rogier.vanrooijen@student.hu.nl 2020/2021
+//
+// (See accompanying file README.md for more licensing information)
+//
+// ==========================================================================
+
 #ifndef PCA9685_HPP
 #define PCA9685_HPP
 
@@ -198,7 +208,7 @@ public:
 		hwlib::wait_ms(2);
 		write_8(MODE1, 0x00);
 	}
-
+	
    /// \brief
    /// sets the given angle for the given servo pin
    /// \details
